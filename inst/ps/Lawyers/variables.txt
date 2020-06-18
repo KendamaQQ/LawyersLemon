@@ -1,0 +1,70 @@
+orgvar | var | descr
+appointed | appointed | dummy variable, 1 if appointed, 0 else
+experience | experience | attorneys years of experience
+attybarcard | attybarcard | unique attorney bar number
+complaintyear | complaintyear | year of penal charge
+male | male | dummy variable, 1 if defendant is male, 0 else
+attymale | attymale | dummy variable, 1 if attorney is male, 0 else
+age_offense | age_offense | age at offense
+white | white | dummy variable, 1 if defendant is white, 0 else
+black | black | dummy variable, 1 if defendant is black, 0 else
+hisp | hisp | dummy variable, 1 if defendant is hisp, 0 else
+num_charges | num_charges | number of previous cases of the defendant
+convict_hist | convict_hist | number of previous convictions of the defendant
+complaint_hist | complaint_hist | number of previous complaints filed against the defendant
+hadbondsman | hadbondsman | dummy variable, 1 if a bail was posted, 0 else
+povrate | povrate | block group poverty rate
+instability | instability | neighborhood turnover (between 0 and 0.75)
+state_jail | state_jail | dummy variable, 1 if crime is a state jail felony (lowermost felony, which is punishable by 180 days to two years in state jail and up to a $10.000 fine in Bexar County), 0 else
+F_2_3 | f_2_3 | dummy variable, 1 if crime is a second or third degree felony
+F_1 | f_1 | dummy variable, 1 if crime is a first degree felony
+violent | violent | dummy variable, 1 if crime comprises violence
+property | property | dummy variable, 1 if crime is relating to property offense
+drug | drug | dummy variable, 1 if crime is relating to drug offense
+distance_to_atty | distance_to_atty | distance between the defendants home and attorney office in miles
+lndist | lndist | log distance between the defendants home and attorney office
+atty_exp | atty_exp | number of previous cases
+pct_appt | pct_appt | share of appointment in previous cases
+racematch | racematch | dummy variable, 1 if defendant and attorney have same ethnicity, 0 else
+reduced | reduced | dummy variable, 1 if charge gets reduced
+dismissed | dismissed | dummy variable, 1 if charge gets dismissed, 0 else
+defadj | defadj | dummy variable, 1 if adjudication gets deferred, 0 else
+plead_guilty | plead_guilty | dummy variable, 1 if defendant plead guilty, 0 else
+plead_nolo | plead_nolo | dummy variable, 1 if plea of nolo contendere, 0 else
+guilty | guilty | dummy variable, 1 if defendant gets convicted, 0 else
+incarcerated | incarcerated | dummy variable, 1 if defendant gets incarcerated, 0 else
+uncond_sent | uncond_sent | length of sentence in days (not conditional on guilty)
+totalfine | totalfine | fine plus court costs
+caseload_retained_30 | caseload_retained | average number of other retained cases for atty per month 
+atty_year | atty_year | unique number for each group of attorney (attorneybarcard) and year (complaintyear)
+offensecode | offensecode | offense code describing crime
+offensetype | offensetype | one of F1, F2, F3, FS (describing the degree of felony, with the latter being state jail felony)
+MTR | MTR | dummy variable, 1 if Motion to Revoke Probation was filed by a persecutor
+offense_num | offense_num | unique number for each group of offensecode and offensetype and MTR
+court | court | court variable describing one of 13 district courts in Bexar County, where case was negotiated
+court_docket | court_docket | unique number for each group of court and complaintyear
+recid_felony_1year | recidivism1 | dummy variable, 1 if new felony charge occured within 1 year after case resolution 
+recid_felony_3year | recidivism3 | dummy variable, 1 if new felony charge occured within 3 years after case resolution 
+recid_felony_ever | recidivism_ever | dummy variable, 1 if new felony charge occured after case resolution 
+sid | sid | unique id, that each defendant gets, and which stays the same irrespective of number of cases
+bg | bg | block group number identifying one of 1075 groups, from the Amcerican Community Survey (2010 Definition)
+case_length | case_length | log number of days between start and end date of case
+offensecat | offensecat | one of 18 offense categorys, eg arson
+attyfirm_size | attyfirm_size | categorical variable describing the number of employees/attorneys in one law firm
+race | race | categorical variable with ethnicity of the defendant stated as B, H, W
+attyrace | attyrace | categorical variable with ethnicity of the attorney stated as B, H, W
+white_white | white_white | dummy variable, 1 if defendant and attorney are white
+black_black | black_black | dummy variable, 1 if defendant and attorney are black
+hisp_hisp | hisp_hisp | dummy variable, 1 if defendant and attorney are hispanic
+apt_bb | apt_bb | dummy variable, 1 if defendant and attorney are black and attorney is appointed
+apt_ww | apt_ww | dummy variable, 1 if defendant and attorney are white and attorney is appointed
+apt_hh | apt_hh | dummy variable, 1 if defendant and attorney are hispanic and attorney is appointed
+black_appt | black_appt | dummy variable, 1 if attorney is black and appointed
+white_appt | white_appt | dummy variable, 1 if attorney is white and appointed
+hisp_appt | hisp_appt | dummy variable, 1 if attorney is hispanic and appointed
+percent_cases_offense_specific | percent_cases_offense_specific |  percent of attorneys previous cases for same offensetype
+dispositionyear | dispositionyear | year of courts final determination of a lawsuit or criminal charge
+lnsent | lnsent | natural log of total days of sentence
+lnfine | lnfine | natural log of total fine consisting of fine and court costs
+complaintmonth | complaintmonth | month in which the charge was filed 
+

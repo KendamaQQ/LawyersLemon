@@ -1,0 +1,11 @@
+Package: RTutorLawyers
+Type: Package
+Title: Selection and Success of Lawyers
+Version: 0.1
+Date: 2020-18-06
+Author: Artemij Cadov
+Maintainer: Artemij Cadov <artem.cadov@web.de>
+Description: RTutor problem set Lawyers
+License: Problem set content: Creative Commons (CC BY-SA)
+	 Package code: GPL >= 2.0
+Depends: RTutor, lfe, stargazer, ggplot2, tidyr, data.table, dummies, summarytools, knitr, kableExtra, rbokeh, shinythemes
