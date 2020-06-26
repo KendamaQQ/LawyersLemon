@@ -459,7 +459,7 @@ Both, previous convictions and poverty rate, are drastically higher in the appoi
 
 Apparently, the share of male attorneys is higher, when the counsel is retained. The years of experience is also higher in the retained group and the amount of previous cases is nearly doubled contrary to the average value in the assigned group. Computing the previous cases per year, the retained group (32) is still ahead of the assigned group (22). Further, there seems so be a preference towards retaining an attorney of same ethnical background in the private market. Finally, let's look at the *outcome characteristics* in the last table. 
 
-The authors analyzed in their paper mainly four outcome variables: **Convicted**, **Dismissed**, **Deferred Adjudication** and **Incarcerated given Conviction**. In this problem set we will mainly focus on *Convicted*. The proceeding is almost identical, the only changing factor in the models we will study is the outcome variable itself. Of course, we will provide the results to the other three variables subsequently, e.g. in an info box. But now let's eventually turn to the figures. By now, you may already expect, that the outcome of felony cases is detrimental to defendants with appointed counsels in opposition to retained attorneys. Still, a round about 18% higher conviction rate is remarkable, as well as 14% lower rate of dismissed cases and something that surely deserves further inquiry. Similarly, indigent defendants face a higher sentence and on average higher fines. Note that indigence is defined upon net income. We need to remark though, that *Convicted* is indeed a summary. It consists of all guilty pleas, pleas of nolo contendere and actual convictions at trial. 
+The authors analyzed in their paper mainly four outcome variables: **Convicted**, **Dismissed**, **Deferred Adjudication** and **Incarcerated given Conviction**. In this problem set we will mainly focus on *Convicted*. The proceeding is almost identical, the only changing factor in the models we will study is the outcome variable itself. Of course, we will provide the results to the other three variables subsequently, e.g. in an info box. But now let's eventually turn to the figures. By now, you may already expect, that the outcome of felony cases is detrimental to defendants with appointed counsels in opposition to retained attorneys. Still, a round about 18 percentage points higher conviction rate is remarkable, as well as 14 percentage points lower rate of dismissed cases and something that surely deserves further inquiry. Similarly, indigent defendants face a higher sentence and on average higher fines. Note that indigence is defined upon net income. We need to remark though, that *Convicted* is indeed a summary. It consists of all guilty pleas, pleas of nolo contendere and actual convictions at trial. However, most cases get resolved by guilty pleas and pleas of nolo contendre. Only a minority of defendants get convicted at trial. 
 
 Table 2 suggested, that there is a disparity in the experience between the two lawyer groups. Since we haven't looked at a chart yet, let's investigate further into experience inequalities and learn something about visualization in R. The aim of the next tasks is so replicate the results in *figure 1 A* of the authors paper.
 
@@ -932,26 +932,26 @@ Note, that we call the coefficient of `appointed` the (unconditional) **assigned
 Take a look at the regression output and try to answer the quiz questions afterwards.
 
 #< quiz "magnitude of appointed 1"
-question: State the influence of CJA panel attorneys on conviction rate relative to retained defenders in percent. 
-answer: 18.3%
+question: By how many percentage points does getting assigned an attorney change our prediction of the probability of being convicted relative to a retained counsel? 
+answer: 18.3
 roundto: 0.1
 #>
 
 ---
 
 #< quiz "significance 1"
-question: Is the influence of CJA panel attorneys significant?
+question: Is the coefficient of appointed significant?
 sc:
 - Yes*
 - No
-success: You are correct. The stars behind it suggest, that the results are significant for an alpha level of 0.1%. This means, if we would resample our data 1000 times and run the same analysis, we wouldn't be able to distinguish between our beta of 18.3 % and 0% in exactly one incident. Actually, if you take a closer look at the p-value, you see that it is approximately zero, so de facto we need to resample our data infinite times until such an event occurs.   
+success: You are correct. The stars behind it suggest, that the results are significant for an alpha level of 0.1%. This means, if we would resample our data 1000 times and run the same analysis, we wouldn't be able to distinguish between our beta of 0.183 and zero in exactly one incident. Actually, if you take a closer look at the p-value, you see that it is approximately zero, so de facto we need to resample our data infinite times until such an event occurs.   
 failure: Unfortunately, this is not correct. An estimate is significant, if the p-value is smaller than an arbitrary alpha level. However, the alpha is not really arbitrary, but often takes the values 0.1%, 1%, 5% or 10% in order to derive meaningful results. This is indicated by the stars behind the p-value. If the p-value is bigger than the chosen alpha, than we can't reject the null hypothesis that our estimate/coefficient resembles zero. 
 #>
 
 ---
 
 #< quiz "conviction rate PD"
-question: How high is the conviction rate of non-indigent defendants? 
+question: How high is the conviction rate of non-indigent defendants in our sample? 
 answer: 36.4%
 roundto: 0.1
 #>
@@ -963,7 +963,7 @@ Great, you solved the quiz. With this basics and results in mind, we can now pro
 #>
 
 
-Note, that you can find the results for the other outcome variables dismissed, deferred adjudication and incarcerated (given conviction) in the corresponding info box. While all outcome variables are pretty self-explanatory, note that deferred adjudication means that if defendants remain crime-free for a fixed period of time and comply with any other court orders, their case will be dismissed. Of course, only defendants are eligible for such a treatment, if they had little or no previous contract with the justice system in the past and who are accused of low-level offenses. 
+Note, that you can find the results for the other outcome variables dismissed, deferred adjudication and incarcerated (given conviction) in the corresponding info box (along with `guilty`). While all outcome variables are pretty self-explanatory, note that deferred adjudication means that if defendants remain crime-free for a fixed period of time and comply with any other court orders, their case will be dismissed. Of course, only defendants are eligible for such a treatment, if they had little or no previous contract with the justice system in the past and who are accused of low-level offenses. 
 
 #! start_note "other unconditional assigned counsel penalties"
 
@@ -975,21 +975,9 @@ lm.dismissed <- lm(dismissed ~ appointed, data=dat)
 lm.defadj <- lm(defadj ~ appointed, data=dat)
 lm.incar <- lm(incarcerated ~ appointed, data=dat, subset=guilty==1)
 
-stargazer(lm.dismissed, lm.defadj, lm.incar, type="html", digits=3)
+stargazer(lm.1, lm.dismissed, lm.defadj, lm.incar, type="html", digits=3)
 #>
 ```
-
----
-
-#< quiz "other outcomes unconditional"
-question: Which of the outcome variables has the highest assigned counsel penalty?
-sc:
-  - dismissed*
-  - deferred adjudication
-  - incarcerated given conviction
-success: You answered the question correctly. The unconditional assigned counsel penalty yields 13.5% for dismissed, 5.6% in the cases of deferred adjudication and 7.5% for guilty indigent defendants whom got incarcerated. 
-failure: Take a second look at the regression output and try to answer the question again. Don't get confounded by the sign of the relevant coefficient, just pay attention to the magnitude. 
-#>
 
 ---
 
@@ -1005,7 +993,7 @@ failure: Try it again.
 ---
 
 #< quiz "the signs"
-question: Look at the sign of the coefficient for `appointed`. Obviously, it is negative. Does this mean, that getting assigned an lawyer is indeed better than retaining an attorney by oneself? 
+question: Look at the sign of the coefficient of appointed for case dismissals and deferred adjudication. Obviously, it is negative. Does this mean, that getting assigned an lawyer is indeed better than retaining an attorney by oneself? 
 sc:
   - Yes
   - No*
@@ -1034,28 +1022,51 @@ First let's focus only on the case characteristics.
 
 ---
 
-#< quiz "case characteristics"
-question: What do you think is the case characteristic variable with the biggest impact on `appointed` and `guilty`.
-sc: 
-  - Male Defendant
-  - Age at Offense
-  - Complaint History
-  - Conviction History
-  - Bail posted*
-  - Ethnicity
-  - Poverty Rate
-success: You guessed it! We will see, why this is correct during this exercise.
-failure: Not right yet.
+#< quiz "hadbondsman"
+parts:
+  - question: What do you think is the right statement about the correlation between posting a bail and being found guilty?
+    sc: 
+      - The correlation is positive.
+      - There is no correlation.
+      - The correlation is negative.*
+    success: That's right as we will se now.
+    failure: Not right yet.
+  - question: What do you think is the right statement about the correlation between posting a bail and getting an attorney assigned?
+    sc:
+      - The correlation is positive.
+      - There is no correlation.
+      - The correlation is negative.*
+    success: That's right as we will se now.
+    failure: Not right yet.   
 #>
 
 ---
 
-Based on the quiz question, let's take a closer look at the influence of bail on our main outcome variable `guilty` and the treatment variable `appointed`. Note, that the variable is called `hadbondsman` in our data and is a dummy variable, which yields 1, if a bail was posted and 0 if not. 
+Based on the quiz question, let's take a look at the respective correlations. Note, that the variable denoting, whether a bail was posted, is called `hadbondsman` in our data. It is a dummy variable, which yields 1, if a bail was posted and 0 if not. 
+
+**Task:**
+Compute the correlation between `hadbondsman` and `guilty` first. Then do the same for the variables `hadbondsman` and `appointed`. You can compute correlations directly with the function `cor()`. 
+
+```{r "2_1__4"}
+#< task
+# Firstly, compute the correlation between hadbondsman and guilty
+
+# Secondly, compute the correlation between hadbondsman and appointed
+
+#>
+
+cor(dat$hadbondsman, dat$guilty)
+cor(dat$hadbondsman, dat$appointed)
+
+```
+
+As you can see, `hadbondsman` is negatively correlated with both variables.     
+Now, let's investigate, what happens, if we regress our main outcome variable `guilty` on `hadbondsman`.
 
 **Task:**
 Run a linear regression model with `lm()`. Use `guilty` as dependent variable and `hadbondsman` as the only regressor. 
 
-```{r "2_1__4"}
+```{r "2_1__5"}
 #< fill_in
 # # Run the regression first
 # lm.bail <- lm(formula = ___, data = dat)
@@ -1069,12 +1080,12 @@ summary(lm.bail)
 
 ```
 
-The result shows, that posting a bail decreases the likelihood of being found guilty by 35.7% on average. Now, let's see, what happens to the assigned counsel penalty, if we add `hadbondsman` to our linear regression model from equation (1). 
+The result shows, that posting a bail decreases the predicted likelihood of being found guilty by 35.7 percentage points on average. Now, let's see, what happens to the assigned counsel penalty, if we add `hadbondsman` to our linear regression model from equation (1). 
 
 **Task:**
 Use `lm()` to run a linear regression model. Again, use `guilty` as dependent variable and `appointed` plus `hadbondsman` as independent variables. 
 
-```{r "2_1__5"}
+```{r "2_1__6"}
 #< fill_in
 # # Run the regression first
 # lm.2 <- lm(formula = ___, data = dat)
@@ -1087,14 +1098,28 @@ lm.2 <- lm(guilty ~ appointed + hadbondsman, data=dat)
 summary(lm.2)
 ```
 
-As you can see adding `hadbondsman` to our regression changes all coefficients. Firstly, the influence of posting a bail decreases by 2.6%, if `appointed` is also present as regressor in the linear model. But way more important is, that the assigned counsel penalty decreases from 18.3% to 7.7% due to addition of `hadbondsman`. That means, that there must be a relationship between our treatment variable `appointed` and the case characteristic variable `hadbondsman`. Indeed, `appointed` and `hadbondsman` are correlated. Thus, variation in hadbondsman is also captured by the unconditional assigned counsel penalty, if we exclude `hadbondsman` as in equation (1). On the other hand, if we include `hadbondsman` the coefficient of `appointed` only assess the impact of variation in assignment on conviction, holding `hadbondsman` constant. To emphasize this more deeply, let's do another regression. 
+As you can see adding `hadbondsman` to our regression changes all coefficients. Firstly, the predicted effect of posting a bail decreases by 2.6 percentage points, if `appointed` is also present as regressor in the linear model. But way more important is, that the predicted assigned counsel penalty decreases from 18.3 percentage points to 7.7 percentage points due to addition of `hadbondsman`. That suggests a relationship between our treatment variable `appointed` and the case characteristic variable `hadbondsman`. Indeed, `appointed` and `hadbondsman` are negatively correlated. Thus, variation in hadbondsman is also captured by the unconditional assigned counsel penalty, if we exclude `hadbondsman` as in equation (1). On the other hand, if we include `hadbondsman` the coefficient of `appointed` only assess the predicted impact of variation in assignment on conviction, holding `hadbondsman` constant. Take a look at this graph, which summarizes the existing correlations.
+
+
+<br>
+
+<center>
+
+![flowchart](flowchart1.png)
+
+</center>
+*Source: Own creation.*
+<br>
+
+
+To emphasize this more deeply, let's do another regression. 
 
 **Task:**
 Firstly, use `lm()` to run a regression with `appointed` as dependent variable and `hadbondsman` as only regressor. Save the regression in a variable `lm.3`. Because the `lm()` function returns a object of class `lm`, we can access different regression outputs with the help of `$`, e.g. `lm.3$coefficients` retrieves just the coefficients from the regression.   
 Secondly, use `lm()` again to run a regression with `guilty` as dependent variable and use the residuals from `lm.3` as independent variable. Note, that all you have to do in order to incorporate the residuals into the model is to retrieve it by `lm.3$residuals`.   
 Finally, save the second regression in a variable `lm.4` and use `summary()` to print the result. 
 
-```{r "2_1__6"}
+```{r "2_1__7"}
 #< fill_in
 # # Run the first regression
 # lm.3 <- lm(formula = ___, data = dat)
@@ -1111,29 +1136,53 @@ lm.4 <- lm(guilty ~ lm.3$residuals, data = dat)
 summary(lm.4)
 ```
 
-As you can see, the coefficient of `lm.3$residuals` is actually the assigned counsel penalty from our model with `hadbondsman`. Why is that? The residuals, that we obtained from `lm.3` capture the variation in `appointed`, which can't be explained by `hadbondsman`. What we are left with is the unique variation in `appointed`. This procedure is also known as **partialling out** and we can call the coefficient of `appointed` the **marginal effect** on `guilty` (alternatively to assigned counsel penalty).   
+As you can see, the coefficient of `lm.3$residuals` is actually the assigned counsel penalty from our model with `hadbondsman`. Why is that? The residuals, that we obtained from `lm.3` capture the variation in `appointed`, which can't be explained by `hadbondsman` in our sample. What we are left with is the unique variation in `appointed`. This procedure is also known as **partialling out** and we can call the coefficient of `appointed` the **marginal effect** on `guilty` (alternatively to assigned counsel penalty).   
 
-Now the question arises, whether the residuals from `lm.3` really capture the unique variation in `appointed` or is there maybe another case characteristic variable, that interfere our estimate and hence explain the disparity in convictions between indigent and non-indigent defendants? 
+Now the question arises, whether the residuals from `lm.3` really capture the unique variation in `appointed` or is there maybe another case characteristic variable, that interferes our estimate and hence potentially explains the disparity in convictions between indigent and non-indigent defendants to some extent? As the flowchart above indicates, there could be further case characteristics, that we would regard as favorable. But, these case characteristics might be not observable or we haven't incorporated them yet. However, this leads to the fact, that the assigned counsel penalty also accounts for this characteristics.   
+Therefore, let's add another variable and see what happens. How about `male`? 
 
----
-
-#< quiz "all relevant variables"
-question: Do you think, there are further case characteristics, that are relevant for our model?
-sc:
-  - yes*
-  - no
-success: That's correct.
-failure: Unfortunately, that's not right, we can improve our model to investigate further influences.
+#< quiz "adding male"
+parts:
+  - question: What do you think is the right statement about the correlation between being male and posting a bail?
+    sc: 
+      - The correlation is positive.
+      - There is no correlation.
+      - The correlation is negative.*
+    success: That's right as we will se now.
+    failure: Not right yet.
+  - question: What do you think is the right statement about the correlation between being male and getting an attorney assigned?
+    sc:
+      - The correlation is positive.
+      - There is almost no correlation.*
+      - The correlation is negative.
+    success: That's right as we will se now.
+    failure: Not right yet.  
 #>
 
----
+Let's validate the right answers from the quiz.
 
-Let's add another variable and see what happens. How about `male`? 
+**Task:**
+Compute the correlation between `male` and `hadbondsman` first. Then do the same for the variables `male` and `appointed`. 
+
+```{r "2_1__8"}
+#< task
+# Firstly, compute the correlation between hadbondsman and guilty
+
+# Secondly, compute the correlation between hadbondsman and appointed
+
+#>
+
+cor(dat$male, dat$hadbondsman)
+cor(dat$male, dat$appointed)
+
+```
+
+Now, let's see what happens, if we add `male` as additional regressor to `appointed` and `hadbondsman`.
 
 **Task:**
 Use `lm()` again to run a regression with `guilty` as dependent and `appointed`, `hadbondsman` and `male` as independent variables. Save the regression in a variable `lm.5` and show the result with `summary()`.
 
-```{r "2_1__7"}
+```{r "2_1__9"}
 #< fill_in
 # # Run the regression first
 # lm.5 <- lm(formula = ___, data = dat)
@@ -1146,7 +1195,17 @@ lm.5 <- lm(guilty ~ appointed + hadbondsman + male, data=dat)
 summary(lm.5)
 ```
 
-As you can see, adding `male` again changed all coefficients. However, this time the assigned counsel penalty didn't declined further but increased by 1 percentage point again. Why? There are two potential sources. On the one hand, there is the direct relationship between `male` and `appointed`. On the other hand, there is also the indirect influence of `male` on `appointed` through `hadbondsman`. We have already seen before, that `hadbondsman` has a severe effect on the assigned counsel penalty. If we look at the coefficient of `hadbondsman` after adding `male` it can be seen, that the coefficient decreased by 2.6 percentage points. The reduced magnitude of `hadbondsman` therefore impacts the assigned counsel penalty less strongly, which means, that the coefficient of `appointed` is a little bit higher, as we have seen.   
+As you can see, adding `male` again changed all coefficients. However, this time the assigned counsel penalty didn't declined further but increased by 1 percentage point again. Why? There are two potential sources. On the one hand, there is the direct relationship between `male` and `appointed` in our sample. However, because `male` and `appointed` are hardly correlated, the assigned counsel penalty doesn't change much because of that. On the other hand, there is also the indirect predicted influence of `male` on `appointed` through `hadbondsman`. We have already seen before, that `hadbondsman` has a severe effect on the assigned counsel penalty. If we look at the coefficient of `hadbondsman` after adding `male` it can be seen, that the coefficient decreased by 2.6 percentage points. The reduced magnitude of `hadbondsman` therefore impacts the assigned counsel penalty less strongly, which means, that the coefficient of `appointed` is a little bit higher, as we have seen. Again, take a look at this flowchart, that summarizes the links. 
+
+<br>
+
+<center>
+
+![flowchart](flowchart2.png)
+
+</center>
+*Source: Own creation.*
+<br>
 
 Of course, we could and should add further variables to our model in order to account for case characteristics. However, we will see, that sequential addition of covariates is problematic in exercise 3.1 and hence doesn't really help to assess the influence of individual case characteristics on `appointed`. Therefore, we will investigate the full set of case characteristic variables in the next exercise along with adverse selection. What you should have realized in this exercise is that `appointed` is sensitive to other variables, that can help us to account for case characteristics and adverse selection.
 
@@ -1162,7 +1221,7 @@ dat <- readRDS("Lawyers.rds")
 #>
 ```
 
-In this exercise we will determine the assigned counsel penalty conditional on both, case characteristics and adverse selection. We already examined the unconditional assigned counsel penalty in exercise 2.1 and introduced some covariates, that could potentially help in explaining some of the unconditional penalty. We will now use the full set of regressors proposed by the authors. Again, we will conduct our analysis based on the outcome variable $guilty$ and provide the results for other outcomes subsequently. 
+In this exercise we will determine the assigned counsel penalty conditional on both, case characteristics and adverse selection. We already examined the unconditional assigned counsel penalty in exercise 2.1 and introduced some covariates, that could potentially help in explaining some of the unconditional penalty. We will now use the full set of regressors proposed by the authors. Again, we will conduct our analysis based on the outcome variable `guilty` and provide the results for other outcomes subsequently. 
 
 Based on the paper, the model we want to estimate is 
 
@@ -1276,7 +1335,7 @@ summary(fe.model)
 
 ```
 
-The result shows that the assigned counsel penalty is 8.5% after we account for case and attorney characteristics. Remember, that we had determined an unconditional assigned counsel penalty of 18.3%. This means, case and attorney characteristics jointly explain 9.8 percentage points in disparity. Note, however, that we can't assess the individual effect of attorney characteristics and case characteristics yet, because both effects are intertwined, but we will do so in the next exercise.
+The result shows that the assigned counsel penalty yields 8.5% after we account for case and attorney characteristics. Remember, that we had determined an unconditional assigned counsel penalty of 18.3%. This means, case and attorney characteristics jointly explain 9.8 percentage points in disparity. Note, however, that we can't assess the individual effect of attorney characteristics and case characteristics yet, because both effects are intertwined, but we will do so in the next exercise.
 
 #! start_note "clustered standard errors"
 As you can see in the call to `felm()`, we speficied in the fourth part of the `formula` syntax, that we want to cluster the standard errors by `attybarcard`, viz. on the attorney level. This info box will explain to you, what this actually means.
@@ -1381,7 +1440,7 @@ parts:
       - No
     success: Great, your answer is correct!
     failure: You should pay attention to the stars, behind the numbers in the first row.
-  - question: 2. Name the outcome variable with the weakest relationship to `appointed`.
+  - question: 2. Name the outcome variable with the weakest relationship to appointed.
     answer: Reduced Charge
 #>
 
@@ -1416,7 +1475,7 @@ in order to describe the percentage point change in y. So, if we apply the formu
 ---
 
 #< quiz "regression output t value"
-question: Calculate the t value of the assigned counsel penalty in the regression with `dismissed` as dependent variable. Use all decimals displayed.
+question: Calculate the t value of the assigned counsel penalty in the regression with dismissed as dependent variable. Use all decimals displayed.
 answer: -10.309122
 roundto: 0.01
 #>
@@ -1704,7 +1763,7 @@ list(delta.sum=delta, delta.mat=c(effect_ch, effect_bail), delta.share=c(effect_
 
 ```
 
-Note, how both effects add up to the total difference $\hat\delta=-11.3\%$ between the base and full regression from equation (4). Also, notice that the effect sizes differ in comparison to the ones obtained by sequential addition (stated in the above table). We just acquired all knowledge in order to decompose the main model. But before we do so, let's first rerun the models from equation (1) and (2) in order to restate the difference in unconditional and conditional assigned counsel penalty $\hat{\beta_1}^{base}-\hat{\beta_1}^{full}$. 
+Note, how both effects add up to the total difference $\hat\delta=-11.3$ (in percentage points) between the base and full regression from equation (4). Also, notice that the effect sizes differ in comparison to the ones obtained by sequential addition (stated in the above table). We just acquired all knowledge in order to decompose the main model. But before we do so, let's first rerun the models from equation (1) and (2) in order to restate the difference in unconditional and conditional assigned counsel penalty $\hat{\beta_1}^{base}-\hat{\beta_1}^{full}$. 
 
 **Task:**
 The code for the full model is already provided. However, you need to fill in the arguments of the `lm()` function to run the base model. You can revisit exercise 2.1 in order to recall the base specification.
@@ -2134,10 +2193,10 @@ As you see, we get the same results as the ones in figure 2 in the authors paper
 <br>
 
 The table shows, that we can explain between 43 and 55 percent in the assigned counsel penalty differences through case/defendant characteristics and attorney characteristics for the variables `guilty`, `dismissed` and `defadj`. Regarding the incarceration conditional on all cases with a guilty judgement, case/defendant characteristics and attorney characteristics explain together 69% in the gap between the base and full model specification.  
-If we take a look at the convictions in the first row, the second and third columns reveal that case characteristics explain 34 % of the difference between the base and full specification while adverse selection account for 20% of the unconditional assigned counsel penalty. So, there remains a residual assigned counsel penalty of 8.5 percentage points, that we can't explain by case characteristics nor attorney characteristics. 
+If we take a look at the convictions in the first column, the second and third row reveal that case characteristics explain 34 % of the difference between the base and full specification while adverse selection accounts for 20% of the unconditional assigned counsel penalty. So, there remains a residual assigned counsel penalty of 8.5 percentage points, that we can't explain by case characteristics nor attorney characteristics. 
 On average, indigent clients are 13.5 percentage points less likely to have their cases dismissed than non-indigent clients. Controlling for client and case characteristics accounts for 31 % of the unconditional assigned counsel penalty. Variation in attorney characteristics is responsible for an 24% increase in the gap between the full and base model. Note, that the authors point out, that even the 95 % confidence interval only yields that 43 % of the unconditional disparity is due to adverse selection.     
 The Likelihood to receive deferred adjudication is for clients, that are represented by assigned counsels on average 5.6 percentage points lower. Variation in case characteristics explains 36% of the disparity. Whereas, adverse selection is virtually negligible, accounting only for 7% of the gap. The remaining conditional assigned counsel penalty amounts to 3.2 percentage points or 57%.   
-A glance at the last row unveils that the unconditional assigned counsel penalty amounts to 7.5 percentage points in terms of incarceration (conditional on conviction). Most of this disparity can be explained by case characteristics, which account for 77% of the gap in incarceration outcomes. Again adverse selection plays a very minor role in explaining the differences between the base and full specification. Indeed, controlling for attorney characteristics seems to increase the gap by little. Finally, the residual assigned counsel penalty yields 2.3 percentage points.  
+A glance at the last column unveils that the unconditional assigned counsel penalty amounts to 7.5 percentage points in terms of incarceration (conditional on conviction). Most of this disparity can be explained by case characteristics, which account for 77% of the gap in incarceration outcomes. Again adverse selection plays a very minor role in explaining the differences between the base and full specification. Indeed, controlling for attorney characteristics seems to increase the gap by little. Finally, the residual assigned counsel penalty yields 2.3 percentage points.  
 We can conclude, that observed case characteristics play an important role in explaining the relatively worse case outcomes among indigent clients with assigned counsels. On the other hand, the influence of adverse selection is greatly dependent on the outcome variable in question. While there is some noticeable impact on the disparity of case dismissal and conviction, such effects can't be established for deferred adjudication and conditional incarceration. Further remarkable is, that adverse selection never shows the same importance as case characteristics. This is to some extent contrary to the previous work of *Iyengar* (2007) and *Roach* (2014). 
 
 After we discussed how we can assess the gap between the unconditional assigned counsel penalty $\hat{\beta_1}^{base}$ from equation (1) and the conditional assigned counsel penalty $\hat{\beta_1}^{full}$ from equation (2) by means of decomposition, let's now make a start on the residual assigned counsel penalties. That is, since we determined the effects of case characteristics and adverse selection we are only left with matching preferences and moral hazard as the remaining causes for the remaining gap. You can now go on to the next exercise, where we start with matching preferences.  
@@ -2199,7 +2258,7 @@ summary(fe.bb)
 
 ```
 
-Firstly, note that we are unable to estimate some of the regressor coefficients. The reason for this is perfect multicollinearity, thus we will omit `hisp`, `white` and `racematch` from subsequent regressions. Either way, in the first place we are interested in the coefficients of `appointed` and `apt_bb`. While the coefficient of `appointed` represents the conditional difference in convictions between the average assigned and retained attorneys (assigned counsel penalty), the coefficient of `apt_bb` is the average conditional difference in getting assigned a black attorney as opposed to getting assigned an Hispanic or white attorney. Hence, we denote the sum of both effects as the assigned black counsel penalty, which sums up to 8%. Consequently, the difference between the assigned counsel penalty and the assigned black counsel penalty yields 1.5%. Note however, that this coefficient is not significant. 
+Firstly, note that we are unable to estimate some of the regressor coefficients. The reason for this is perfect multicollinearity, thus we will omit `hisp`, `white` and `racematch` from subsequent regressions. Either way, in the first place we are interested in the coefficients of `appointed` and `apt_bb`. While the coefficient of `appointed` represents the conditional difference in convictions between the average assigned and retained attorneys (assigned counsel penalty), the coefficient of `apt_bb` is the average conditional difference in getting assigned a black attorney as opposed to getting assigned an Hispanic or white attorney. Hence, we denote the sum of both effects as the assigned black counsel penalty, which sums up to 8 percentage points. Consequently, the difference between the assigned counsel penalty and the assigned black counsel penalty yields 1.5 percentage points. Note however, that this coefficient is not significant. 
 
 #! start_note "Assigned Black Counsel Penalty for other Outcomes"
 
@@ -2396,7 +2455,7 @@ stargazer(fe.lndist, fe.reg_exp, fe.pct_spec, type ="html",
 The regression output shows, that the distance between an assigned attorney and his or her defendants' resident isn't significant. Years of experience however is significant at the 10% level. But remember, that we rescaled the variable by a factor of 10. Thus, the interpretation of the coefficient is, that on average 10 years of experience lead to an reduction of the residual assigned counsel penalty by 1.2 percentage points. Finally, we get highly significant results for the specialization variable, but since the magnitude of the coefficient is negligibly small offense specialization doesn't have much implications on the residual assigned counsel penalty. The same conclusion can be applied to `atty_exp`, which captures the attorney experience by the number of cases. Although the coefficient is highly significant, the effect size is rather minor. On average, assigned attorneys who have resolved 100 cases show an approximately 0.05 percentage points lower residual assigned counsel penalty. This is to some extent surprising, if we consider the overall strong preferences for attorneys with many resolved cases. If we change the outcome variable, we wouldn't obtain other results, therefore we abandon it at this point and refer to table 5 in the authors paper. 
 
 At the end of this exercise we can conclude, that although there are some strong preferences on the private market for some attorney characteristics, they don't seem to play an important role in reducing the residual assigned counsel penalty.  
-Hence, we are left with only one more possible explenation from the initial four - moral hazard, which we are going to examine in the next exercise. 
+Hence, we are left with only one more possible explanation from the initial four - moral hazard, which we are going to examine in the next exercise. 
 
 
 
@@ -2817,7 +2876,7 @@ dat <- readRDS("Lawyers.rds")
 ```
 
 
-Now, let's start this exercise off by recalling that the residual assigned counsel penalty is about 8.5%. This constitutes an upper bound for moral hazard. One possible explenation that underlies the issue of moral hazard could be differences in attorney compensation. According to the authors the median criminal defense attorney in San Antonio (the capital of Bexar County) charged 200$ per hour on the private market in 2015. Fees are primarily set based on the severity and complexity of the case. The authors further state, that flat fees are common in private criminal law and are set primarily on the severity and complexity of the case, e.g. possession of less than one gram of marijuana would amount to 1000-4000\$. Consequently, at an hourly rate of 200\$, a retained attorney would expect to work 5-20 hours.   
+Now, let's start this exercise off by recalling that the residual assigned counsel penalty is about 8.5%. This constitutes an upper bound for moral hazard. One possible explanation that underlies the issue of moral hazard could be differences in attorney compensation. According to the authors the median criminal defense attorney in San Antonio (the capital of Bexar County) charged 200$ per hour on the private market in 2015. Fees are primarily set based on the severity and complexity of the case. The authors further state, that flat fees are common in private criminal law and are set primarily on the severity and complexity of the case, e.g. possession of less than one gram of marijuana would amount to 1000-4000\$. Consequently, at an hourly rate of 200\$, a retained attorney would expect to work 5-20 hours.   
 Assigned attorneys in our data have been compensated based on a fee schedule. Fees are structured in three different categories, based on the severity of offense, state jail and 3rd degree felonies, 2nd degree felonies or first degree felonies. Independent of the severity all assigned attorneys get 100$ for an initial jail visit. Further they are compensated on hourly rates for court appearance, evidentiary hearings, trials and time out of court. However, hourly rates only span the range of 50-125\$. Flat fees compose the main compensation source. However, between 2005 and 2009 only cases resolved by plea bargains or representing MTR cases (Motion to Revoke Probation) have been eligible for flat fee compensation. Resolving a case via plea bargain yielded 400-750\$ and representing MTR cases yielded 175-300\$, depending on the severity of the offense. After 2009 the flat fees have also become available for assigned attorneys who achieved the case being dismissed and increased for MTR cases. However, after 2015 all types of case resolution became eligible for flat fee compensation, which are 6% of our sample. Appointed attorneys choose the flat fee compensation in 75% of time. The reason is, according to a survey conducted by authors, that flat fee requests are not subject to review, whereas a judge can adjust, or even refuse, the hours requested by a lawyer. Another reason might be the possibility to raise the hourly wage by resolving cases faster and getting compensated by a flat fee. For example, resolve a second-degree offense case by guilty plea renders possible a 500\$ flat fee compensation, incorporating that the median private market hourly wage is 200\$, the assigned counsel would calculate to spend 2.5 hours in order to break even.  
 Because of the lower compensation for assigned cases, attorneys may exert less effort and focus more on their private clients. Hence, they have an incentive to spend less time on assigned cases and may seek a fast resolution. In this light, we can assess moral hazard by using `case_length` as a proxy for lawyer effort. Case length is calculated as the difference between complaint date and the earlier of judgement date and adjudication date. Let's run a simple analysis to shortly discuss the effect of case length on being convicted. 
 
@@ -2877,7 +2936,7 @@ dat %>%
 
 ```
 
-We obtain the result, that cases are on average 65% shorter when the counsel is assigned as opposed to retained. That seems quite significant. Of course, we need to revise this statement under consideration of case/defendant and attorney characteristics again, as we did with `guilty` as outcome variable. Hence, let's compute the conditional assigned counsel penalty with respect to `case_length`. 
+We obtain the result, that cases are on average 35% shorter when the counsel is assigned as opposed to retained. That seems quite significant. Of course, we need to revise this statement under consideration of case/defendant and attorney characteristics again, as we did with `guilty` as outcome variable. Hence, let's compute the conditional assigned counsel penalty with respect to `case_length`. 
 
 **Task:**
 Use the `felm()` function with the familiar set of regressors from equation (2) and the dependent variable `case_length`. 
@@ -2919,10 +2978,10 @@ dat %>%
 
 ```
 
-The results show, that cases without a bail posted are 55% shorter than cases where the defendant was released pre-adjudication. 
+The results show, that cases without a bail posted are 45% shorter than cases where the defendant was released pre-adjudication. 
 Based on these results, let's calculate the conditional assigned counsel penalty again, ones for the subsample of no bail defendants and ones for the subsamples with bails posted. Note that in both subsamples also MTR cases stay removed. 
 
-**Task:*
+**Task:**
 Firstly, filter the data to include only cases where bail was posted. Then run regression using `felm()` again with `case_length` as response variable, but with the new subset of data. 
 Secondly, filter the data to include only cases where bail was not posted. Now run regression on this respective subsample. 
 Finally print the results with `stargazer()`. 
