@@ -18,7 +18,7 @@ check.problem.set('Lawyers', ps.dir, ps.file, user.name=user.name, reset=FALSE)
 
 Author: Artemij Cadov
 
-
+## Introduction
 
 
 
@@ -38,7 +38,7 @@ This is an interactive problem set, which is part of my master's thesis at Ulm U
 It examines, why assigned as opposed to retained attorneys achieve relatively worse outcomes for their clients.
 But there is far more information out there, that we can consider in answering this question, which is our **research question**.
 Like always when learning new things, answering questions leads initially to even more questions. Like, what is the appropriate model to answer the research question, which covariates shall be included in the model and how to implement it in R?
-Don't worry, if you are interested by these questions, this problem set will ease the way to answer them all. 
+Don't worry, if you are interested in these questions, this problem set will ease the way to answer them all. 
 
 The analysis is based on the article ["Is Your Lawyer a Lemon? Incentives and Selection in the Public Provision of Criminal Defense"](https://www.mitpressjournals.org/doi/abs/10.1162/rest_a_00891) by *Agan, Freedman and Owens* (2019). Be aware, that there is also an earlier version, respectively [working paper](https://www.nber.org/papers/w24579) out there, which is also important for this problem set, since it contains additional analysis to the main paper. I will refer to the main article simply as "Agan et al." or "the authors" from now on and will state explicitly, if a look at the working paper is necessary.
 
@@ -99,9 +99,9 @@ To navigate through the problem set, you can use the button `Go to next exercise
 
 ## Exercise 1 -- Descriptive Statistics
 
-In this exercise we will have a look at basic data manipulation techniques. In parallel you have the possibility to get familiar with the data by computing some insightful statistics. Subsequently, we will replicate and look at some descriptive statistics from the authors paper. Overall, this exercise aims at preparing you for the more advanced exercises afterwards by combining both, programming knowledge and information on the topic that we study. 
+In this exercise we will have a look at basic data manipulation techniques. In parallel you have the possibility to get familiar with the data by computing some insightful statistics. Subsequently, we will replicate and look at some descriptive statistics from the author's paper. Overall, this exercise aims at preparing you for the more advanced exercises afterwards by combining both, programming knowledge and information on the topic that we study. 
 
-The first necessary step for every sophisticated analysis is to explore the data. Agan et al. merged multiple data sources into one data set, which consists of **64209 observations** on over 600 variables. This might seem overwhelming at first place, but be appeased with the fact, that our analysis necessitates just a subsample of 68 variables. The data provides information about cases, whereat **each observation corresponds to a case**. Each case contains defendant and attorney characteristics as well as information on the defendant’s block group, assembled from the ACS 2009-2013 (American Community Survey). 
+The first necessary step for every sophisticated analysis is to explore the data. Agan et al. merged multiple data sources into one data set, which consists of **64209 observations** on over 600 variables. This might seem overwhelming at first place, but be appeased with the fact, that our analysis necessitates just a subsample of 68 variables. The data provides information about cases, whereat **each observation corresponds to a case**. Each case contains defendant and attorney characteristics as well as information on the defendants block group, assembled from the ACS 2009-2013 (American Community Survey). 
 
 Without further ado, let's now have a look into the actual data.
 
@@ -114,7 +114,7 @@ dat <- ___("Lawyers.rds")
 ```
 
 
-The two main variables, that we are going to use in our analysis are `guilty` and `appointed`. Both take only values between 0 and 1. In the case of `guilty`, 0 indicates, that the defendant wasn't convicted and 1 stands for conviction. In the case of `appointed`, 0 indicates, that the attorney was retained by a defendant and 1 means the attorney was assigned to an indigent defendant. Let's take a look at both variables. 
+The two main variables, that we are going to use in our analysis are `guilty` and `appointed`. Both take only the two values 0 and 1. In the case of `guilty`, 0 indicates, that the defendant wasn't convicted and 1 stands for conviction. In the case of `appointed`, 0 indicates, that the attorney was retained by a defendant and 1 means the attorney was assigned to an indigent defendant. Let's take a look at both variables. 
 
 **Task:** 
 Use the function `select()` from `dplyr` to select the variables `guilty` and `appointed` and save them in a variable `selected`. Afterwards, use the `head()` function to print out the first six observations in `selected`. 
@@ -389,7 +389,7 @@ info("ignore this, this is just a garbage collector for the tables cube") # Run 
 
 ## Exercise 2 -- Investigate Lawyer Heterogeneity
 
-After we get some insights into the fundamentals of R as well as the paper, we will now continue to dive deeper into both. In exercise 2.1 we will run our first regression analysis. If you are already familiar with OLS that shouldn't be something, that scares you. If you are not, you will learn the basics in the exercise. Additionally, after you finished exercise 2.1 you will now, what the authors mean, when they talk about the (unconditional) assigned counsel penalty and how to estimate it. We will also discover that case characteristics, adverse selection, matching preferences and moral hazard are potential explanations for the unconditional assigned counsel penalty. Exercise 2.1 also provides a introduction of potential variables, that account for case characteristics. However, in exercise 2.2 we will run the model proposed by authors to control for all case and attorney characteristics. 
+After we get some insights into the fundamentals of R as well as the paper, we will now continue to dive deeper into both. In exercise 2.1 we will run our first regression analysis. If you are already familiar with OLS that shouldn't be something, that scares you. If you are not, you will learn the basics in the exercise. Additionally, after you finished exercise 2.1 you will know, what the authors mean, when they talk about the (unconditional) assigned counsel penalty and how to estimate it. We will also discover that case characteristics, adverse selection, matching preferences and moral hazard are potential explanations for the unconditional assigned counsel penalty. Exercise 2.1 also provides an introduction of potential variables, that account for case characteristics. However, in exercise 2.2 we will run the model proposed by authors to control for all case and attorney characteristics. 
 
 ## Exercise 2.1 -- Unconditional Assigned Counsel Penalty
 
@@ -409,7 +409,7 @@ guilty_{i} = \beta_{0} + \beta_{1}*appointed_{i} + \epsilon_{i}, \qquad \text{(1
 \end{align}$$
 
 **Task:**
-Run a linear model with `lm()`. Use `guilty` as dependent and `appointed` as independent variable. Finally use `summary()` to produce the output table of the regression results.
+Use the `lm()` function with `guilty` as dependent and `appointed` as independent variable. Don't forget to provide our data `dat` to the `data` argument. Finally use `summary()` to produce the output table of the regression results.
 
 ```{r "2_1__2"}
 # Firstly, run the model
@@ -425,6 +425,10 @@ Note, that we call the coefficient of `appointed` the (unconditional) **assigned
 Take a look at the regression output and try to answer the quiz questions afterwards.
 
 #! addon__quiz__magnitude of appointed 1
+
+---
+
+#! addon__quiz__magnitude in percent
 
 ---
 
@@ -466,7 +470,7 @@ Note, that these three outcome variables constitute together with `guilty` the m
 
 #! end_note
 
-Now, we know how strong the relationship between `appointed` and `guilty` (or the other outcome variables) is, however, by now we don't know the reasons underlying this disparity. But we can take a look at the authors paper, where the following four potential reasons are stated: 
+Now, we know how strong the relationship between `appointed` and `guilty` (or the other outcome variables) is, however, by now we don't know the reasons underlying this disparity. But we can take a look at the author's paper, where the following four potential reasons are stated: 
 
   <ol style="list-style-type: upper-roman">
   <li> <b> Case Characteristics: </b> It may be harder to defend indigent clients compared to non-indigent clients. </li>
@@ -523,14 +527,14 @@ lm.2 <- lm(formula = ___, data = dat)
 summary(lm.2)
 ```
 
-As you can see adding `hadbondsman` to our regression changes all coefficients. Firstly, the predicted effect of posting a bail decreases by 2.6 percentage points, if `appointed` is also present as regressor in the linear model. But way more important is, that the predicted assigned counsel penalty decreases from 18.3 percentage points to 7.7 percentage points due to addition of `hadbondsman`. That suggests a relationship between our treatment variable `appointed` and the case characteristic variable `hadbondsman`. Indeed, `appointed` and `hadbondsman` are negatively correlated. Thus, variation in hadbondsman is also captured by the unconditional assigned counsel penalty, if we exclude `hadbondsman` as in equation (1). On the other hand, if we include `hadbondsman` the coefficient of `appointed` only assess the predicted impact of variation in assignment on conviction, holding `hadbondsman` constant. Take a look at this graph, which summarizes the existing correlations.
+As you can see adding `hadbondsman` to our regression changes all coefficients. Firstly, the predicted effect of posting a bail decreases by 2.6 percentage points, if `appointed` is also present as regressor in the linear model. But way more important is, that the predicted assigned counsel penalty decreases from 18.3 percentage points to 7.7 percentage points due to addition of `hadbondsman`. That suggests a relationship between our treatment variable `appointed` and the case characteristic variable `hadbondsman`. Indeed, `appointed` and `hadbondsman` are negatively correlated. Thus, variation in hadbondsman is also captured by the unconditional assigned counsel penalty, if we exclude `hadbondsman` as in equation (1). On the other hand, if we include `hadbondsman` the coefficient of `appointed` only assess the variation in assignment on conviction, holding `hadbondsman` constant. Take a look at this graph, which summarizes the relationships. Note, that the dashed line between `appointed` and `hadbondsman` represents only a correlation, while the solid lines can be interpreted as causal relationships. As you can see, beneficial case characteristics lower the probability of getting convicted. However, if a defendant is indigent he doesn't have beneficial case characteristics in general, which leads to a higher probability of getting convicted. The ability to post a bail is also beneficial for the case outcome. So, if we control for it in our regression, the inverse relationship between `appointed` and beneficial case characteristics becomes less strong, which leads to a lower assigned counsel penalty. 
 
 
 <br>
 
 <center>
 
-![flowchart](flowchart1.png)
+![Correlations between Case Characteristics, Appointed and Guilty](flowchart1.png)
 
 </center>
 *Source: Own creation.*
@@ -557,21 +561,26 @@ summary(lm.4)
 
 As you can see, the coefficient of `lm.3$residuals` is actually the assigned counsel penalty from our model with `hadbondsman`. Why is that? The residuals, that we obtained from `lm.3` capture the variation in `appointed`, which can't be explained by `hadbondsman` in our sample. What we are left with is the unique variation in `appointed`. This procedure is also known as **partialling out** and we can call the coefficient of `appointed` the **marginal effect** on `guilty` (alternatively to assigned counsel penalty).   
 
-Now the question arises, whether the residuals from `lm.3` really capture the unique variation in `appointed` or is there maybe another case characteristic variable, that interferes our estimate and hence potentially explains the disparity in convictions between indigent and non-indigent defendants to some extent? As the flowchart above indicates, there could be further case characteristics, that we would regard as favorable. But, these case characteristics might be not observable or we haven't incorporated them yet. However, this leads to the fact, that the assigned counsel penalty also accounts for this characteristics.   
+Now the question arises, whether the residuals from `lm.3` really capture only the random correlation in `appointed` or is there maybe another case characteristic variable, that interferes our estimate and hence potentially explains the disparity in convictions between indigent and non-indigent defendants to some extent? As the flowchart above indicates, there could be further case characteristics, that are correlated with apppointed and guilty. But, these case characteristics might be not observable or we haven't incorporated them yet. However, this leads to the fact, that the assigned counsel penalty also accounts for these characteristics.   
 Therefore, let's add another variable and see what happens. How about `male`? 
 
+---
+
 #! addon__quiz__adding male
+
+---
 
 Let's validate the right answers from the quiz.
 
 **Task:**
-Compute the correlation between `male` and `hadbondsman` first. Then do the same for the variables `male` and `appointed`. 
+Compute the correlation between `male` and `hadbondsman` first. Then do the same for the variables `male` and `appointed`. Finally, compute the correlation between `male` and `guilty`.
 
 ```{r "2_1__8"}
-# Firstly, compute the correlation between hadbondsman and guilty
+# Firstly, compute the correlation between male and hadbondsman
 
-# Secondly, compute the correlation between hadbondsman and appointed
+# Secondly, compute the correlation between male and appointed
 
+# Finally, compute the correlation between male and guilty
 ```
 
 Now, let's see what happens, if we add `male` as additional regressor to `appointed` and `hadbondsman`.
@@ -587,19 +596,19 @@ lm.5 <- lm(formula = ___, data = dat)
 summary(lm.5)
 ```
 
-As you can see, adding `male` again changed all coefficients. However, this time the assigned counsel penalty didn't declined further but increased by 1 percentage point again. Why? There are two potential sources. On the one hand, there is the direct relationship between `male` and `appointed` in our sample. However, because `male` and `appointed` are hardly correlated, the assigned counsel penalty doesn't change much because of that. On the other hand, there is also the indirect predicted influence of `male` on `appointed` through `hadbondsman`. We have already seen before, that `hadbondsman` has a severe effect on the assigned counsel penalty. If we look at the coefficient of `hadbondsman` after adding `male` it can be seen, that the coefficient decreased by 2.6 percentage points. The reduced magnitude of `hadbondsman` therefore impacts the assigned counsel penalty less strongly, which means, that the coefficient of `appointed` is a little bit higher, as we have seen. Again, take a look at this flowchart, that summarizes the links. 
+As you can see, adding `male` again changed all coefficients. However, this time the assigned counsel penalty didn't declined further but increased by 1 percentage point again. Why? Since `male` is negatively correlated with `appointed`, as we have seen before, and positively with `guilty`, adding it to the model accounts for this correlation. So, after we controlled for `male` and `hadbondsman` the left-over variation in `appointed` comes either from random noise or from additional case characteristics, that are correlated with `appointed` and have an effect on `guilty`. Note, that there is also a correlation between `hadbondsman` and `male`, which also has an effect on the assigned counsel penalty. However, we won't discuss this effect in detail here and therefore omit it from the flowchart. Again, you can have a look at this flowchart, that summarizes the links. Again, the dashed line between `appointed` and `male` represents only a correlation, while the solid lines can be interpreted as causal relationships. Being a male defendant lowers the probability of a positive case outcome. So, if we control for it in our regression, the inverse relationship between `appointed` and beneficial case characteristics becomes stronger, which leads to a increase in assigned counsel penalty again.  
 
 <br>
 
 <center>
 
-![flowchart](flowchart2.png)
+![Correlations between Case Characteristics, Appointed and Guilty](flowchart2.png)
 
 </center>
 *Source: Own creation.*
 <br>
 
-Of course, we could and should add further variables to our model in order to account for case characteristics. However, we will see, that sequential addition of covariates is problematic in exercise 3.1 and hence doesn't really help to assess the influence of individual case characteristics on `appointed`. Therefore, we will investigate the full set of case characteristic variables in the next exercise along with adverse selection. What you should have realized in this exercise is that `appointed` is sensitive to other variables, that can help us to account for case characteristics and adverse selection.
+Of course, we could and should add further variables to our model in order to account for case characteristics. However, we will see, that sequential addition of covariates is problematic in exercise 3.1 and hence doesn't really help to assess the effect of individual case characteristics on `appointed`. Therefore, we will investigate the full set of case characteristic variables in the next exercise along with adverse selection. What you should have realized in this exercise is that `appointed` is sensitive to other variables, that can help us to account for case characteristics and adverse selection.
 
 
 ## Exercise 2.2 -- Assigned Counsel Penalty
@@ -627,7 +636,7 @@ The matrix $A_{ikt}$ can also be subdivided into $a_{ik}$, which includes direct
 
 We have three subscripts $i$, $k$ and $t$. The subscript $k$ represents an attorney, while $i$ constitutes a case and $t$ describes the year. To depict the year, we use the time variable `complaintyear` and to identify each distinct attorney we use `attybarcard`. As we already examined before, there are 726 attorneys over the time period 2005-2014 with a total amount of 64209 cases. Hence, we observe each attorney $k$ in $T_i$ time periods, whereby we observe a number of cases in a time period $t$ for each attorney $k$. If you click at the `data` above a code chunk you will recognize this structure. The first column lists attorneys $k$ based on `attybarcard`, the second column lists $t$ based on `complaintyear` and columns three and four are listing our main outcome variable `guilty` and the treatment variable `appointed`.  
 
-As a last step, before running the model, let's discuss attorney-by-year fixed effects $\gamma_{kt}$. This are dummy variables for every attorney-year combination, that we include into our model. We do so, because we want to account for **unobserved heterogeneity**. That means, that there is variation in variables, that could help us to better assess the influence of `appointed` on `guilty`, but we can't observe these variables (we don't have them in our data). Including attorney-by-year fixed effects solves this problem, because it accounts for any unobserved variation in attorneys across years. In this specification, the assigned counsel penalty is identified off variation within attorneys who work as both assigned and retained counsel in the same year. To get a better grasp about the various dummies of attorney-by-year fixed effects, let's compute how many are present and the number of cases in each group. 
+As a last step, before running the model, let's discuss attorney-by-year fixed effects $\gamma_{kt}$. This are dummy variables for every attorney-year combination, that we include into our model. We do so, because we want to account for **unobserved heterogeneity**. That means, that there is variation in variables, that could help us to assess the effect of `appointed` on `guilty`, but we can't observe these variables (we don't have them in our data). Including attorney-by-year fixed effects solves this problem, because it accounts for any unobserved variation in attorneys across years. In this specification, the assigned counsel penalty is identified off variation within attorneys who work as both assigned and retained counsel in the same year. To get a better grasp about the various dummies of attorney-by-year fixed effects, let's compute how many are present and the number of cases in each group. 
 
 **Task:**
 Let's use `dplyr` again. First `group_by()` `attybarcard` and `complaintyear`. 
@@ -688,7 +697,7 @@ summary(ay_grouped %>% filter(ay_mean == 1))
 
 Indeed, roughly 60% of the attorney-year combinations, which we filtered out are working on the private market exclusively and they take on approximately 9.5 cases on average, which is less compared to the full set of attorney-year combinations. By the way, the average number of cases handled for the filtered-out attorney-year combinations of only assigned cases amounts to roughly 7.5. It follows, that attorneys who work as both, assigned and retained, take on far more cases, than the other two groups. 
 
-Now let's finally run the model stated in equation (2) in order to calculate the assigned counsel penalty $\beta_1$. We use will use the `felm()` function from the `lfe` package to achieve this task. The `felm()` function works similarly to the `lm()` function. However, the difference is, that `felm()` has a more elaborate `formula` argument, which allows us to specify fixed effects. This bears the advantage, that we don't need to specify all dummy variables for the categories of the variables `offense_num`, `court_docket` and `atty_year` by hand. The syntax of the `formula` consists of four parts: The first part contains the ordinary covariates, the second part encompasses the fixed effects to be projected out, the third part allows for instrumental  variables and the last part adds the option to specify clustered standard errors. Please inspect the help page, for an example of the `formula` syntax and for further information, particular about additional arguments. The `lfe` package was developed by *Gaure* (2013a, 2013b). You can have a look at his papers for some clarification of fixed effects estimation with `lfe`. 
+Now let's finally run the model stated in equation (2) in order to calculate the assigned counsel penalty $\beta_1$. We use will use the `felm()` function from the `lfe` package to achieve this task. The `felm()` function works similarly to the `lm()` function. However, the difference is, that `felm()` has a more elaborate way to deal with the fixed effects, which is must faster than the dummy variable approach internallty used by the `lm()` function. The syntax of the `formula` consists of four parts: The first part contains the ordinary covariates, the second part encompasses the fixed effects to be projected out, the third part allows for instrumental  variables and the last part adds the option to specify clustered standard errors. Please inspect the help page, for an example of the `formula` syntax and for further information, particular about additional arguments. The `lfe` package was developed by *Gaure* (2013a, 2013b). You can have a look at his papers for some clarification of fixed effects estimation with `lfe`. 
 
 **Task:** 
 Run the full model as specified in equation (2) using `felm()` and save it in a variable called `fe.model`. 
@@ -708,7 +717,7 @@ The result shows that the assigned counsel penalty yields 8.5% after we account 
 
 #! start_note "clustered standard errors"
 As you can see in the call to `felm()`, we speficied in the fourth part of the `formula` syntax, that we want to cluster the standard errors by `attybarcard`, viz. on the attorney level. This info box will explain to you, what this actually means.
-You probably know, how to derive the formula for standard errors in OLS. If not, have a look at the bottom info box. The paramount assumption underlying the sampling variance in fixed effects models is $Var(\epsilon_{ikt}|Z_{ikt}, \gamma_{kt})=\sigma^2$. Note, that we denote $Z_{ikt}$ as the vector containing the full set of regressors from equation (2).
+You probably know, how to derive the formula for standard errors in OLS. If not, have a look at the bottom info box. Additionally to the assumption of independent distributed error terms $\epsilon$, the paramount assumption underlying the sampling variance in fixed effects models is $Var(\epsilon_{ikt}|Z_{ikt}, \gamma_{kt})=\sigma^2$. Note, that we denote $Z_{ikt}$ as the vector containing the full set of regressors from equation (2).
 Sadly, we can't assume this to hold true generally. Firstly, there could be heteroscedasticity. In that case we necessitate *White* (1980) standard errors. Secondly, there could be autocorrelated error terms among cases or serial correlation across time leading to wrong standard errors we must account for, as *Newey, Kenneth, West* (1987) point out. However, we want to allow the disturbance term to be correlated within clusters, but to fulfill the iid assumption between clusters. The typical example of clusters are schools, where students are nested within classrooms. Because all students have for example the same teacher, we can't expect test results being independent.   
 In our case we will define clusters on the attorney level. That is, we allow for correlation in the disturbance terms among cases and across years within each attorney but expect no correlation between attorneys. In this case we can state the variance-covariance matrix of the coefficients as
 $$\begin{align}
@@ -826,7 +835,7 @@ model_cond <- lapply(depvar_cond, function(x) {
 )
 
 # Assign appropriate names to list elements
-names(model_cond) <- depvar
+names(model_cond) <- depvar_cond
 
 # Prepare Output
 regressor.labels <- c("Assigned Counsel Penalty", "Male Defendant", "Age at Offense", 
@@ -870,7 +879,7 @@ $$\begin{align}
   guilty = \beta_0 + \beta_1assigned + \beta_2complaint\_hist+\beta_3hadbondsman+\xi. \qquad \text{(4)}
 \end{align}$$
 Note, that we dropped the subscripts in this equation. We do this, because equation (4) just serves as illustration for decomposition and we already now, that we can estimate it with OLS over all observations/cases $i$. The regressor $hadbondsman$ is an indicator variable, which is 1, if a bail was posted and 0 else. 
-Let's assume for a moment, that equation (4) represents the true model. In this case, one interesting question, that arises is: What is the influence of the consideration of `complain_hist` and `hadbondsman` on $\beta_1$. A naive approach to assess this question might be to sequential add both variables to the base specification as we did in exercise 2.1. 
+Let's assume for a moment, that equation (4) represents the true model. In this case, one interesting question, that arises is: What is our prediction of the consideration of `complain_hist` and `hadbondsman` on $\beta_1$. A naive approach to assess this question might be to sequentially add both variables to the base specification as we did in exercise 2.1. 
 
 **Task:**
 In this task we will compute all regressions in order to examine, how sequential addition affects $\hat\beta_1$.    
@@ -919,8 +928,8 @@ This table summarizes your calculations. The first column states the effect size
  <thead class="slider-thead">
   <tr>
    <th class="swiper-th">   </th>
-   <th class="swiper-th"> CH into Bail </th>
-   <th class="swiper-th"> Bail into CH </th>
+   <th class="swiper-th"> CH then Bail </th>
+   <th class="swiper-th"> Bail then CH </th>
   </tr>
  </thead>
 <tbody class="slider-tbody">
@@ -984,9 +993,15 @@ Further, if $X_{2k}$ is the k-th column of observations in $X_2$, we can write
 $$\begin{align}
   \hat\Gamma_k= (X_1^TX_1)^{-1}X_1^TX_{2k}, \qquad \text{(6)}
 \end{align}$$
-as the OLS estimated coefficient on $X_1$ from an auxiliary model with $X_{2k}$ as the dependent variable. Because the omitted variables bias formula is linear, we can restate equation (5) as
+as the OLS estimated coefficient on $X_1$ from an auxiliary model with $X_{2k}$ as the dependent variable. For instance, if we examine a linear model as in equation (4), we can restate equation (6) (for $k=1,2$) as
+$$\begin{alignat}{3}
+  \hat\Gamma_1 &= (assigned^T*assigned)^{-1}*assigned^T*complaint\_hist, \\\
+  \hat\Gamma_2 &= (assigned^T*assigned)^{-1}*assigned^T*hadbondsman. \qquad \text{(7)}
+\end{alignat}$$
+
+Because the omitted variables bias formula is linear, we can write equation (5) as
 $$\begin{align}
-  \hat\delta = \sum_{k=1}^{k_2}\hat\Gamma_k\hat\beta_{2k}=\sum_{k=1}^{k_2}\hat\delta_k, \qquad with \quad \hat\delta_k=\hat\Gamma_k\hat\beta_{2k} \qquad \text{(7)}
+  \hat\delta = \sum_{k=1}^{k_2}\hat\Gamma_k\hat\beta_{2k}=\sum_{k=1}^{k_2}\hat\delta_k, \qquad with \quad \hat\delta_k=\hat\Gamma_k\hat\beta_{2k}. \qquad \text{(8)}
 \end{align}$$
 Note, that $\hat\beta_{2k}$ is the estimated coefficient on $X_{2k}$ in the full model specification and $k_2$ is the number of columns in $X_2$. 
 
@@ -1050,7 +1065,7 @@ However, there is a little downside on the computational side. In order to do th
 We will write the function step-by-step. At first, we should always think about the input required and computed output of a function. The output should look like the one, we computed for the small model (equation (4)). For the input we need arguments for $X_1$ and $X_2$ from the model underlying equation (5). Let's denote them as `x1.vars` and `x2.vars`. We also require arguments specifying the outcome variable and the data. We choose `y.var` and obviously `data`. Finally, if we compute so many effects, we are rarely interested in each and every one. Hence, we necessitate an argument, which accounts for grouping explanatory variables in $X_2$. Let's call it `x2.grouped`.    
 We have talked so far about the arguments. A user-defined function however consists of a name, the arguments and finally the body. Let's therefore call our function `gelbach.decomposition()`. Before we go on, let's have a look at what we have so far: 
 
-info("preknit_aZRyWeieOFLU") # Run this line (Strg-Enter) to show info
+info("preknit_XjSpmOhlpGFh") # Run this line (Strg-Enter) to show info
 
 
 Prior to writing the body, let's already define the arguments, which we want to commit to the function.
@@ -1102,12 +1117,12 @@ We will do so in multiple steps and afterwards put the function together.
 Start simply by extracting the outcome variable `y.var` from the `data`.
 Also state the number of elements in the vectors of names `x1.vars` and `x2.vars`.
 
-info("preknit_lCHzdaGJxakv") # Run this line (Strg-Enter) to show info
+info("preknit_OZjrMYOHKxCQ") # Run this line (Strg-Enter) to show info
 
 **Task - Step 2:**
 Add the explanatory variables of interest in `x1.vars` and the controls in `x2.vars` into a single design matrix in order to run the full regression afterwards. Save the coefficients from the full regression in a variable `coef.full`. Finally, extract all coefficients of the variables in `x2.vars`. 
 
-info("preknit_itUibYinlhTs") # Run this line (Strg-Enter) to show info
+info("preknit_sOSyCIQmuEKF") # Run this line (Strg-Enter) to show info
 
 **Task - Step 3:**
 For the purpose of running the auxiliary regressions - create the design matrix which is based on `x1.vars` purely. 
@@ -1115,12 +1130,12 @@ Also initialize a matrix `delta.mat` to store the effects $\hat\delta_k$ (see eq
 Now run the auxiliary regressions and compute $\hat\delta_k$. Save the results in `delta.mat`.
 Finally compute the total gap between the base and full model $\hat\delta$ by summing over all $\hat\delta_k$ and calculate the percentage effect. 
 
-info("preknit_GgSdQNAcqdnU") # Run this line (Strg-Enter) to show info
+info("preknit_TpEDMIKAFSAY") # Run this line (Strg-Enter) to show info
 
 **Task - Step 4:**
 In this step we will take care of the grouping. We start by checking, if the grouping variable `x2.grouped` is specified. If not, output the results `delta.sum`, `delta.mat` and `delta.share` from the last step in a list element. If `x2.grouped` is specified, calculate the group effects `delta.grouped` for each variable in `x1.vars` by summing over the respective $\hat\delta_k$ in `delta.mat`. Output a list as in step 3, but with `delta.grouped` instead of `delta.mat`. 
 
-info("preknit_zadMizRtPmMr") # Run this line (Strg-Enter) to show info
+info("preknit_xtTUszkNGjjL") # Run this line (Strg-Enter) to show info
 
 **Task - Step 5:**
 Now add all together in our function `gelbach.decomposition()`. Press `check`.
@@ -1209,7 +1224,7 @@ Use the newly defined function `gelbach.decomposition()` to decompose the model 
 Remember, that we already assigned all variables to the argument names. 
 Note, that because the computation takes very long, we just show the code here and will read in the solution to the call to our function in the next task.
 
-info("preknit_bXymWZEolxCW") # Run this line (Strg-Enter) to show info
+info("preknit_TXMaLtubNQzu") # Run this line (Strg-Enter) to show info
 
 **Task:**
 Use the function `readRDS()` to read in the solution to the above function call and save it in a variable `decomposed`.
@@ -1306,7 +1321,7 @@ In the course of this exercise we will scrutinize whether revealed preferences i
 
 We start by examining the race dimension. We already discussed that race preferences differ along Black, Hispanic and White defendants. To account for that we will run regressions on each subgroup separately. Moreover, we will run in each subgroup two different specifications. The first specification aims at showing the average differences for a racial match relative to an attorney of a different race. The second model answers whether there is an average difference for having an attorney of each of the two other ethnicities with respect to a racial match. Because there are a total of 24 regressions (2 specifications x 3 subgroups x 4 outcomes) we will again focus on conviction as the primary outcome variable and state the results for the other outcomes afterwards. So let't get into it. 
 
-First, we will consider the influence of black defendants being defended by black attorneys on the residual assigned counsel penalty $\hat\beta_1$ from model (2). Therefore, we will use the variable `apt_bb`, which is a dummy variable with the values 1, if the attorney is appointed and both, defendant and attorney, are black and 0 else. Note that the following few tasks replicate table 4 from the authors paper.   
+First, we will consider the effect of black defendants being defended by black attorneys on the residual assigned counsel penalty $\hat\beta_1$ from model (2). Therefore, we will use the variable `apt_bb`, which is a dummy variable with the values 1, if the attorney is appointed and both, defendant and attorney, are black and 0 else. Note that the following few tasks replicate table 4 from the authors paper.   
 The next step is to run the regression, where we add the interaction term `appointed*apt_bb` to the specification in equation (2). But before doing so, let's first read in the data. 
 
 ```{r "3_2__2"}
@@ -1412,6 +1427,9 @@ The code is already complete. Run the regression by clicking on `Check`.
 ```{r "3_2__7"}
 # Run the Regression
 fe.attymale <- felm(guilty ~ appointed + appointed*attymale + male + age_offense + complaint_hist + convict_hist + hadbondsman + hisp + white + povrate + instability + log(distance_to_atty) + atty_exp + pct_appt + racematch + reg_exp +  caseload_retained | atty_year + offense_num + court_docket | 0 | attybarcard, exactDOF = T, cmethod="reghdfe", data=dat)
+
+# Show Output
+summary(fe.attymale)
 ```
 
 The results show, that for indigent defendants a female attorney is hardly more favorable than a male counsel. Additionally, the result is not significant at all, thus we have no evidence to assume that attorney gender has an impact on the residual assigned counsel gap. 
@@ -1560,7 +1578,7 @@ stargazer(fe.case_length_bail, fe.case_length_nobail, type ="html", title="Assig
 
 ```
 
-The results show a blatant difference in the influence of bail status on case length among appointed defendants. On the one hand cases, where the attorney is assigned and the defendant is released pre-adjudication get resolved on average 13.9% faster than cases, where the attorney is retained and the defendant is released. On the other hand, cases with appointed attorneys and no posted bail endure on average 23.9% longer than cases with retained attorneys, where no bail was posted. The reason for this disparity is the aspiration of detained defendants to get to the case resolution quickly with the potential of a favorable outcome. However, in the situation where the defendant has posted a bail, he or she has an interest in delaying case resolution, as we pointed out earlier in this exercise. The fact, that there is a significant assigned counsel penalty on case length for released defendants indicate, that the disparity is driven by attorney interest for quick case resolution, which contradicts the defendant's aspiration. This finding aligns with our discussion of the fee structures of assigned attorneys, which induce them to resolve cases faster in order to break even. 
+The results show a blatant difference in the effect of bail status on case length among appointed defendants. On the one hand cases, where the attorney is assigned and the defendant is released pre-adjudication get resolved on average 13.9% faster than cases, where the attorney is retained and the defendant is released. On the other hand, cases with appointed attorneys and no posted bail endure on average 23.9% longer than cases with retained attorneys, where no bail was posted. The reason for this disparity is the aspiration of detained defendants to get to the case resolution quickly with the potential of a favorable outcome. However, in the situation where the defendant has posted a bail, he or she has an interest in delaying case resolution, as we pointed out earlier in this exercise. The fact, that there is a significant assigned counsel penalty on case length for released defendants indicate, that the disparity is driven by attorney interest for quick case resolution, which contradicts the defendant's aspiration. This finding aligns with our discussion of the fee structures of assigned attorneys, which induce them to resolve cases faster in order to break even. 
 
 Let's further investigate lawyer's compensation. We can exploit the circumstance that flat fee compensation changed during the sampling period of our data by assessing the implications for attorney behavior. Therefore, take a look at the image below. 
 
@@ -1724,9 +1742,10 @@ summary(wls)
 Click on `check` to show the plot.
 
 ```{r "4__10",results='asis', output='htmlwidget', widget='rbokeh', optional=TRUE}
-figure(title="Attorney-Specific Assigned Counsel Penalties Impact on Indigent Client Recidivism", xlab="Residual Assigned Counsel Penalty", ylab="Probability of Recidivism", ylim=c(-0.5,1), width = 1500, height=1200, legend_location = NULL) %>%
+figure(title="Attorney-Specific Assigned Counsel Penalties Impact on Recidivism", xlab="Residual Assigned Counsel Penalty", ylab="Probability of Recidivism", ylim=c(-0.5,1), width = 1500, height=1200, legend_location = NULL) %>%
   ly_points(x = attybeta, y = mean_resid_appt, data = dat, color=experience, fill_color= c("#337ab7"), line_color="black", 
-            alpha=0.5, size=shr_assigned_i, hover = list(attybarcard, attymale, atty_exp)) %>% ly_abline(wls, width = 2)
+            alpha=0.5, size=shr_assigned_i, hover = list(attybarcard, attymale, atty_exp)) %>% 
+  ly_abline(wls, width = 2)
 
 ```
 
