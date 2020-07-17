@@ -853,7 +853,7 @@ stargazer(model_cond, type ="html", title="Assigned Counsel Penalties for differ
 
 ## Exercise 3 -- Decomposition of Assigned Counsel Penalty
 
-The main contribution of the authors to the field of criminal justice research is the assessment, how the assigned counsel penalty can be attributed to case characteristics, adverse selection, matching and moral hazard. This is possible through the unique data, that we have at hand, where we can observe the same attorney across cases taken on in the same year. As a result, we can partial out case and attorney characteristics. Hereby, we can draw two conclusions: Firstly, the difference in conditional and unconditional assigned counsel penalty is attributed to case characteristics and adverse selection. Secondly, the residual assigned counsel penalty (remaining difference in outcomes, when attorney is assigned vs. retained) must be due to moral hazard and matching preferences between attorney and client.   
+The main contribution of the authors to the field of criminal justice research is the assessment, how the assigned counsel penalty can be attributed to case characteristics, adverse selection, matching and moral hazard. This is possible through the unique data, that we have at hand, where we can observe the same attorney across cases taken on in the same year. As a result, we can partial out case and attorney characteristics. Hereby, we can draw two conclusions: Firstly, the difference in conditional and unconditional assigned counsel penalty is attributed to observed case characteristics and adverse selection. Secondly, the residual assigned counsel penalty (remaining difference in outcomes, when attorney is assigned vs. retained) must be due to moral hazard and matching preferences between attorney and client. 
 
 In this section you will learn, how we can decompose the difference between the conditional and unconditional assigned counsel penalty in exercise 3.1. Afterwards, we will thoroughly examine matching preferences and moral hazard, which are two possible explanations for the residual assigned counsel penalty.
 
@@ -1065,7 +1065,7 @@ However, there is a little downside on the computational side. In order to do th
 We will write the function step-by-step. At first, we should always think about the input required and computed output of a function. The output should look like the one, we computed for the small model (equation (4)). For the input we need arguments for $X_1$ and $X_2$ from the model underlying equation (5). Let's denote them as `x1.vars` and `x2.vars`. We also require arguments specifying the outcome variable and the data. We choose `y.var` and obviously `data`. Finally, if we compute so many effects, we are rarely interested in each and every one. Hence, we necessitate an argument, which accounts for grouping explanatory variables in $X_2$. Let's call it `x2.grouped`.    
 We have talked so far about the arguments. A user-defined function however consists of a name, the arguments and finally the body. Let's therefore call our function `gelbach.decomposition()`. Before we go on, let's have a look at what we have so far: 
 
-info("preknit_XjSpmOhlpGFh") # Run this line (Strg-Enter) to show info
+info("preknit_XFvGgIBMdGAx") # Run this line (Strg-Enter) to show info
 
 
 Prior to writing the body, let's already define the arguments, which we want to commit to the function.
@@ -1117,12 +1117,12 @@ We will do so in multiple steps and afterwards put the function together.
 Start simply by extracting the outcome variable `y.var` from the `data`.
 Also state the number of elements in the vectors of names `x1.vars` and `x2.vars`.
 
-info("preknit_OZjrMYOHKxCQ") # Run this line (Strg-Enter) to show info
+info("preknit_DOdavhKJqrUt") # Run this line (Strg-Enter) to show info
 
 **Task - Step 2:**
 Add the explanatory variables of interest in `x1.vars` and the controls in `x2.vars` into a single design matrix in order to run the full regression afterwards. Save the coefficients from the full regression in a variable `coef.full`. Finally, extract all coefficients of the variables in `x2.vars`. 
 
-info("preknit_sOSyCIQmuEKF") # Run this line (Strg-Enter) to show info
+info("preknit_nJfCocbaiLQW") # Run this line (Strg-Enter) to show info
 
 **Task - Step 3:**
 For the purpose of running the auxiliary regressions - create the design matrix which is based on `x1.vars` purely. 
@@ -1130,12 +1130,12 @@ Also initialize a matrix `delta.mat` to store the effects $\hat\delta_k$ (see eq
 Now run the auxiliary regressions and compute $\hat\delta_k$. Save the results in `delta.mat`.
 Finally compute the total gap between the base and full model $\hat\delta$ by summing over all $\hat\delta_k$ and calculate the percentage effect. 
 
-info("preknit_TpEDMIKAFSAY") # Run this line (Strg-Enter) to show info
+info("preknit_fxNrXBUNDOTn") # Run this line (Strg-Enter) to show info
 
 **Task - Step 4:**
 In this step we will take care of the grouping. We start by checking, if the grouping variable `x2.grouped` is specified. If not, output the results `delta.sum`, `delta.mat` and `delta.share` from the last step in a list element. If `x2.grouped` is specified, calculate the group effects `delta.grouped` for each variable in `x1.vars` by summing over the respective $\hat\delta_k$ in `delta.mat`. Output a list as in step 3, but with `delta.grouped` instead of `delta.mat`. 
 
-info("preknit_xtTUszkNGjjL") # Run this line (Strg-Enter) to show info
+info("preknit_GNiiVPOQvPTp") # Run this line (Strg-Enter) to show info
 
 **Task - Step 5:**
 Now add all together in our function `gelbach.decomposition()`. Press `check`.
@@ -1224,7 +1224,7 @@ Use the newly defined function `gelbach.decomposition()` to decompose the model 
 Remember, that we already assigned all variables to the argument names. 
 Note, that because the computation takes very long, we just show the code here and will read in the solution to the call to our function in the next task.
 
-info("preknit_TXMaLtubNQzu") # Run this line (Strg-Enter) to show info
+info("preknit_pTqQzhedghxE") # Run this line (Strg-Enter) to show info
 
 **Task:**
 Use the function `readRDS()` to read in the solution to the above function call and save it in a variable `decomposed`.
@@ -1290,7 +1290,7 @@ As you see, we get the same results as the ones in figure 2 in the authors paper
 <br>
 
 The table shows, that we can explain between 43 and 55 percent in the assigned counsel penalty differences through case/defendant characteristics and attorney characteristics for the variables `guilty`, `dismissed` and `defadj`. Regarding the incarceration conditional on all cases with a guilty judgement, case/defendant characteristics and attorney characteristics explain together 69% in the gap between the base and full model specification.  
-If we take a look at the convictions in the first column, the second and third row reveal that case characteristics explain 34 % of the difference between the base and full specification while adverse selection accounts for 20% of the unconditional assigned counsel penalty. So, there remains a residual assigned counsel penalty of 8.5 percentage points, that we can't explain by case characteristics nor attorney characteristics. 
+If we take a look at the convictions in the first column, the second and third row reveal that case characteristics explain 34 % of the difference between the base and full specification while adverse selection accounts for 20% of the unconditional assigned counsel penalty. So, there remains a residual assigned counsel penalty of 8.5 percentage points, that we can't explain by observed case characteristics nor attorney characteristics. 
 On average, indigent clients are 13.5 percentage points less likely to have their cases dismissed than non-indigent clients. Controlling for client and case characteristics accounts for 31 % of the unconditional assigned counsel penalty. Variation in attorney characteristics is responsible for an 24% increase in the gap between the full and base model. Note, that the authors point out, that even the 95 % confidence interval only yields that 43 % of the unconditional disparity is due to adverse selection.     
 The Likelihood to receive deferred adjudication is for clients, that are represented by assigned counsels on average 5.6 percentage points lower. Variation in case characteristics explains 36% of the disparity. Whereas, adverse selection is virtually negligible, accounting only for 7% of the gap. The remaining conditional assigned counsel penalty amounts to 3.2 percentage points or 57%.   
 A glance at the last column unveils that the unconditional assigned counsel penalty amounts to 7.5 percentage points in terms of incarceration (conditional on conviction). Most of this disparity can be explained by case characteristics, which account for 77% of the gap in incarceration outcomes. Again adverse selection plays a very minor role in explaining the differences between the base and full specification. Indeed, controlling for attorney characteristics seems to increase the gap by little. Finally, the residual assigned counsel penalty yields 2.3 percentage points.  
@@ -1317,12 +1317,12 @@ includeHTML("preferences.html")
 
 As you might have already figured out, there are substantial differences in attorney characteristics. Firstly, there seems to be an overall higher preference among non-indigent clients to retain an attorney of same race. Secondly, both, Hispanic and Black defendants are more likely to retain an attorney of the same race than to be assigned one. However, this relationship doesn't apply for white defendants. Moreover, there is a subtle preference, overall and over all races, for male attorneys. On average, the office of an appointed counsel is about seven miles further away from the resident of it's client, when compared with retained attorneys. The experience of retained attorneys exceeds the experience of assigned attorneys, both, in years and cases. Finally, clients seem to prefer to retain counsels, who are rather specialized in the category of crime the defendant is accused off.   
 
-In the course of this exercise we will scrutinize whether revealed preferences in terms of attorney characteristics are decisive for the assigned counsel penalty. To that, we will use the conditional assigned counsel penalty from equation (2) on the meanwhile well-known set of explanatory variables. In order to carry out the investigation we will add additional interaction terms to `appointed`.   
+In the course of this exercise we will scrutinize whether revealed preferences in terms of attorney characteristics are decisive for the assigned counsel penalty. For this purpose, we will use the conditional assigned counsel penalty from equation (2) on the meanwhile well-known set of explanatory variables. In order to carry out the investigation we will add additional interaction terms to `appointed`.   
 
 We start by examining the race dimension. We already discussed that race preferences differ along Black, Hispanic and White defendants. To account for that we will run regressions on each subgroup separately. Moreover, we will run in each subgroup two different specifications. The first specification aims at showing the average differences for a racial match relative to an attorney of a different race. The second model answers whether there is an average difference for having an attorney of each of the two other ethnicities with respect to a racial match. Because there are a total of 24 regressions (2 specifications x 3 subgroups x 4 outcomes) we will again focus on conviction as the primary outcome variable and state the results for the other outcomes afterwards. So let't get into it. 
 
 First, we will consider the effect of black defendants being defended by black attorneys on the residual assigned counsel penalty $\hat\beta_1$ from model (2). Therefore, we will use the variable `apt_bb`, which is a dummy variable with the values 1, if the attorney is appointed and both, defendant and attorney, are black and 0 else. Note that the following few tasks replicate table 4 from the authors paper.   
-The next step is to run the regression, where we add the interaction term `appointed*apt_bb` to the specification in equation (2). But before doing so, let's first read in the data. 
+The next step is to run the regression, where we add the variable `apt_bb` to the specification in equation (2). But before doing so, let's first read in the data. 
 
 ```{r "3_2__2"}
 dat <- readRDS("Lawyers.rds")
@@ -1434,7 +1434,7 @@ summary(fe.attymale)
 
 The results show, that for indigent defendants a female attorney is hardly more favorable than a male counsel. Additionally, the result is not significant at all, thus we have no evidence to assume that attorney gender has an impact on the residual assigned counsel gap. 
 
-We will now proceed identically for the variables `lndist`, `reg_exp`, `atty_exp` and `pct_spec` by interacting them with `appointed` and regress on the full data. Note that `reg_exp` states the decades the respective attorney is working in his profession since his or her bar admission. The `pct_spec` variable displays for every case the percentage of same offenses the attorney has dealt with in the past. Note that We will do all regressions together in the following task. 
+We will now proceed identically for the variables `lndist`, `reg_exp`, `atty_exp` and `pct_spec` by interacting them with `appointed` and regress on the full data. Note that `reg_exp` states the decades the respective attorney is working in his profession since his or her bar admission. The `pct_spec` variable displays for every case the percentage of same offenses the attorney has dealt with in the past. Note that we will do all regressions together in the following task. 
 
 **Task:**
 The code is already complete. Run the regressions by clicking on `Check`.
@@ -1459,7 +1459,7 @@ The regression output shows, that the distance between an assigned attorney and 
 At the end of this exercise we can conclude, that although there are some strong preferences on the private market for some attorney characteristics, they don't seem to play an important role in reducing the residual assigned counsel penalty.  
 Hence, we are left with only one more possible explanation from the initial four - moral hazard, which we are going to examine in the next exercise. 
 
-
+info("unobserved case characteristics as explenation for residual assigned counsel penalty") # Run this line (Strg-Enter) to show info
 
 <div class="garbage">
 
@@ -1493,7 +1493,7 @@ lm.case <- ___
 summary(___)
 ```
 
-Of course, we already now, that our estimate of the `case_length` coefficient is biased, but the aim at this point is just to get an intuition of the relationship and whether it aligns with our expectations. So, the regression shows, that on average an increase in the case length by 10% yields a reduction in the probability of being found guilty by 1.1 percentage points. Well, as mentioned, we shouldn't entirely trust the magnitude, but the direction of sign seems accurate. Delaying a case can lead to some benefits like unexpected testimonies or a deal with the prosecutor. Therefore, attorneys may exploit various strategies in order to delay a case, e.g. by requesting continuances for consultation purposes or for psychiatric evaluations, filing numerous motions, and using the discovery process to postpone hearings (as mentioned by the authors.) So, the natural thing to ask hereinafter is, whether there is a difference in case length between appointed and retained attorneys.   
+Of course, we already now, that our estimate of the `case_length` coefficient is biased, but the aim at this point is just to get an intuition of the relationship and whether it aligns with our expectations. So, the regression shows, that on average an increase in the case length by 10% yields a reduction in the predicted probability of being found guilty by 1.1 percentage points. Well, as mentioned, we shouldn't entirely trust the magnitude, but the direction of sign seems accurate. Delaying a case can lead to some benefits like unexpected testimonies or a deal with the prosecutor. Therefore, attorneys may exploit various strategies in order to delay a case, e.g. by requesting continuances for consultation purposes or for psychiatric evaluations, filing numerous motions, and using the discovery process to postpone hearings (as mentioned by the authors.) So, the natural thing to ask hereinafter is, whether there is a difference in case length between appointed and retained attorneys.   
 
 **Task - Step 1:**
 First of all, recall, that `case_length` is stated in log days. That is, we can't just calculate the mean `case_length` in both groups, appointed and retained counsels, since that wouldn't yield the arithmetic average of case length in days. Instead, first define a new variable `caselength` (and attach it to our data), that displays the case length in days, you can achieve this by applying the `exp()` function on `case_length`. 
@@ -1578,7 +1578,7 @@ stargazer(fe.case_length_bail, fe.case_length_nobail, type ="html", title="Assig
 
 ```
 
-The results show a blatant difference in the effect of bail status on case length among appointed defendants. On the one hand cases, where the attorney is assigned and the defendant is released pre-adjudication get resolved on average 13.9% faster than cases, where the attorney is retained and the defendant is released. On the other hand, cases with appointed attorneys and no posted bail endure on average 23.9% longer than cases with retained attorneys, where no bail was posted. The reason for this disparity is the aspiration of detained defendants to get to the case resolution quickly with the potential of a favorable outcome. However, in the situation where the defendant has posted a bail, he or she has an interest in delaying case resolution, as we pointed out earlier in this exercise. The fact, that there is a significant assigned counsel penalty on case length for released defendants indicate, that the disparity is driven by attorney interest for quick case resolution, which contradicts the defendant's aspiration. This finding aligns with our discussion of the fee structures of assigned attorneys, which induce them to resolve cases faster in order to break even. 
+The results show a blatant difference in the effect of bail status on case length among appointed defendants. On the one hand cases, where the attorney is assigned and the defendant is released pre-adjudication get resolved on average 13.9% faster than cases, where the attorney is retained and the defendant is released. On the other hand, cases with appointed attorneys and no posted bail endure on average 23.9% shorter than cases with retained attorneys, where no bail was posted. The reason for this disparity is the aspiration of detained defendants to get to the case resolution quickly with the potential of a favorable outcome. However, in the situation where the defendant has posted a bail, he or she has an interest in delaying case resolution, as we pointed out earlier in this exercise. The fact, that there is a significant assigned counsel penalty on case length for released defendants indicate, that the disparity is driven by attorney interest for quick case resolution, which contradicts the defendant's aspiration. This finding aligns with our discussion of the fee structures of assigned attorneys, which induce them to resolve cases faster in order to break even. 
 
 Let's further investigate lawyer's compensation. We can exploit the circumstance that flat fee compensation changed during the sampling period of our data by assessing the implications for attorney behavior. Therefore, take a look at the image below. 
 
@@ -1626,7 +1626,7 @@ dat$atty <- cumsum(c(1,diff(dat$attybarcard) != 0))
 The following steps will guide you through the process in order to replicate figure 4 from the authors paper, which shows the linear relationship between the attorney-specific assigned counsel penalty and the probability that an attorney's client recidivates. Note that we will focus on the code first and give an interpretation of the resulting figure afterwards.
 
 **Task - Step 1:**
-Firstly, change `atty` to `class()` `factor`.
+Firstly, change `atty` to `class` `factor`.
 Secondly, rerun the model specification stated in (2) with the supplement of adding interaction terms, between `appointed` and `atty`. Finally, show the output as always with `summary()`.
 The code is already provided, just press `check`.   
 Note, that the computation takes some time.
@@ -1742,6 +1742,10 @@ summary(wls)
 Click on `check` to show the plot.
 
 ```{r "4__10",results='asis', output='htmlwidget', widget='rbokeh', optional=TRUE}
+# Firstly, load the package rbokeh
+library(rbokeh)
+
+# Secondly, produce the plot
 figure(title="Attorney-Specific Assigned Counsel Penalties Impact on Recidivism", xlab="Residual Assigned Counsel Penalty", ylab="Probability of Recidivism", ylim=c(-0.5,1), width = 1500, height=1200, legend_location = NULL) %>%
   ly_points(x = attybeta, y = mean_resid_appt, data = dat, color=experience, fill_color= c("#337ab7"), line_color="black", 
             alpha=0.5, size=shr_assigned_i, hover = list(attybarcard, attymale, atty_exp)) %>% 

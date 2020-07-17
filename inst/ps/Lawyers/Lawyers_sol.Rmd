@@ -13,7 +13,7 @@ Author: Artemij Cadov
 
 library(RTutor)
 library(yaml)
-setwd("C:/Users/Artemij Cadov/Dropbox/replic")
+setwd("C:/Users/Artemij Cadov/Documents/Masterarbeit/replic")
 ps.name = "Lawyers"; sol.file = paste0(ps.name,"_sol.Rmd")
 libs = c("lfe", "stargazer", "ggplot2", "tidyr", "data.table", "dummies", "knitr", "rbokeh", "shinythemes") # character vector of all packages you load
 name.rmd.chunks(sol.file) # set auto chunk names in this file
@@ -586,8 +586,8 @@ By this point we could suggest that the worse case outcomes we looked at table 3
 </head>
 <body>
 <meta charset="utf-8">
-<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
-<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
 <!-- Slider main container -->
 <div class="swiper-container">
@@ -853,10 +853,9 @@ By this point we could suggest that the worse case outcomes we looked at table 3
 	
 </div>
 
-<script src="https://unpkg.com/swiper/js/swiper.js">
-</script>
-<script src="https://unpkg.com/swiper/js/swiper.min.js">
-</script>
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 <script>
   var mySwiper = new Swiper (".swiper-container", {
 
@@ -2507,8 +2506,8 @@ Although, we haven't mentioned it before, there could be also further explenatio
 
 
 <meta charset="utf-8">
-<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
-<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
 <!-- Slider main container -->
 <div class="swiper-container">
@@ -2850,10 +2849,9 @@ Although, we haven't mentioned it before, there could be also further explenatio
 	
 </div>
 
-<script src="https://unpkg.com/swiper/js/swiper.js">
-</script>
-<script src="https://unpkg.com/swiper/js/swiper.min.js">
-</script>
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 <script>
   var mySwiper = new Swiper (".swiper-container", {
 
